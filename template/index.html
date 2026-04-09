@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio Optimizer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #5f2c82, #9c3c6c);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .results {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .error {
+            color: yellow;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📊 Portfolio Optimizer</h1>
+
+    <input type="text" id="assets" placeholder="Assets (e.g. AAPL, GOOG)">
+    <input type="text" id="values" placeholder="Values (e.g. 100, 200)">
+
+    <button onclick="optimize()">Optimize</button>
+
+    <div id="results" class="results" style="display:none;">
+        <h2>Results</h2>
+        <p><strong>Risk:</strong> <span id="risk"></span></p>
+        <p><strong>Weights:</strong> <span id="weights"></span></p>
+    </div>
+
+    <div id="error" class="error"></div>
+</div>
+
+<script>
+    function optimize() {
+        const assets = document.getElementById("assets").value;
+        const values = document.getElementById("values").value;
+        const errorDiv = document.getElementById("error");
+        const resultsDiv = document.getElementById("results");
+
+        errorDiv.innerText = "";
+        resultsDiv.style.display = "none";
+
+        if (!assets || !values) {
+            errorDiv.innerText = "Please enter both assets and values.";
+            return;
+        }
+
+        try {
+            const assetList = assets.split(",");
+            const valueList = values.split(",").map(Number);
+
+            if (assetList.length !== valueList.length) {
+                throw "Assets and values count must match.";
+            }
+
+            // Dummy calculation (replace with real logic/backend)
+            const total = valueList.reduce((a, b) => a + b, 0);
+            const weights = valueList.map(v => (v / total).toFixed(2));
+            const risk = (Math.random() * 0.2).toFixed(3);
+
+            document.getElementById("risk").innerText = risk;
+            document.getElementById("weights").innerText = weights.join(", ");
+
+            resultsDiv.style.display = "block";
+        } catch (err) {
+            errorDiv.innerText = err;
+        }
+    }
+</script>
+
+</body>
+</html>
